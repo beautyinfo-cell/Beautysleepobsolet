@@ -1,0 +1,1750 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AURA &amp; DEW | Modern Skincare &amp; Viral Beauty</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Cormorant Garamond', 'serif'],
+          },
+          colors: {
+            cream: '#FAF7F4',
+            sand: '#F2ECE4',
+            blush: '#EBD7D2',
+            terracotta: '#C86D58',
+            espresso: '#231D1A',
+            taupe: '#786B63',
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    /* Subtle custom scrollbar & transitions */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FAF7F4;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D8CFC6;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #B8ABA0;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-cream text-espresso font-sans antialiased selection:bg-blush selection:text-espresso">
+
+  <!-- Top Announcement Bar -->
+  <div class="bg-espresso text-cream text-xs sm:text-sm py-2.5 px-4 text-center tracking-wide">
+    <span>Complimentary Express Shipping across Australia on orders over $75 AUD &bull; Use code </span>
+    <button onclick="copyPromoCode('GLOW15')" class="underline font-semibold hover:text-blush transition cursor-pointer" title="Click to copy code">GLOW15</button>
+    <span> for 15% off</span>
+  </div>
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-30 bg-cream/90 backdrop-blur-md border-b border-espresso/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20 gap-4">
+        <!-- Brand Logo -->
+        <a href="#" onclick="resetFilters(); return false;" class="flex items-center gap-2 shrink-0 group">
+          <div class="w-8 h-8 rounded-full bg-espresso text-cream flex items-center justify-center font-serif text-lg font-bold group-hover:bg-terracotta transition">
+            A
+          </div>
+          <span class="font-serif text-2xl sm:text-3xl font-semibold tracking-tight text-espresso">
+            AURA <span class="italic font-normal text-terracotta">&amp;</span> DEW
+          </span>
+        </a>
+
+        <!-- Desktop Search Input -->
+        <div class="hidden md:flex flex-1 max-w-md mx-6">
+          <div class="relative w-full">
+            <input
+              type="text"
+              id="desktopSearchInput"
+              placeholder="Search snail mucin, truffle mist, peptide lip..."
+              class="w-full bg-sand/80 border border-espresso/10 rounded-full py-2.5 pl-10 pr-9 text-sm text-espresso placeholder-taupe focus:outline-none focus:ring-2 focus:ring-terracotta/40 focus:bg-white transition"
+            />
+            <svg class="w-4 h-4 text-taupe absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 103.5 10.5a7.5 7.5 0 0013.15 6.15z" />
+            </svg>
+            <button id="clearDesktopSearch" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-taupe hover:text-espresso text-xs font-semibold">
+              &times;
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Actions -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <button
+            onclick="toggleWishlistFilter()"
+            id="wishlistToggleBtn"
+            aria-label="Saved Items"
+            class="relative p-2.5 rounded-full hover:bg-sand transition text-espresso flex items-center gap-1.5"
+            title="View Saved Favorites"
+          >
+            <svg id="headerHeartIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+            <span id="wishlistCountBadge" class="hidden text-xs font-semibold bg-blush text-espresso px-1.5 py-0.5 rounded-full">0</span>
+          </button>
+
+          <button
+            onclick="openCart()"
+            aria-label="Open Shopping Bag"
+            class="relative flex items-center gap-2 bg-espresso text-cream hover:bg-terracotta px-4 py-2.5 rounded-full text-sm font-medium transition shadow-sm"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span class="hidden sm:inline">Bag</span>
+            <span id="cartCountBadge" class="bg-cream text-espresso text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Search Bar -->
+      <div class="pb-3 md:hidden">
+        <div class="relative w-full">
+          <input
+            type="text"
+            id="mobileSearchInput"
+            placeholder="Search serums, blushes, sunscreens..."
+            class="w-full bg-sand/80 border border-espresso/10 rounded-full py-2 pl-9 pr-8 text-sm text-espresso placeholder-taupe focus:outline-none focus:ring-2 focus:ring-terracotta/40 focus:bg-white transition"
+          />
+          <svg class="w-4 h-4 text-taupe absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 103.5 10.5a7.5 7.5 0 0013.15 6.15z" />
+          </svg>
+          <button id="clearMobileSearch" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-taupe hover:text-espresso text-sm font-semibold">
+            &times;
+          </button>
+        </div>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <nav aria-label="Product Categories" class="flex items-center justify-between border-t border-espresso/5 py-2.5 overflow-x-auto no-scrollbar gap-2">
+        <div id="categoryTabs" class="flex items-center gap-1.5 sm:gap-2">
+          <!-- Populated by JS -->
+        </div>
+        <div class="hidden lg:flex items-center gap-2 shrink-0">
+          <label for="sortSelect" class="text-xs text-taupe">Sort by:</label>
+          <select id="sortSelect" onchange="handleSortChange(this.value)" class="bg-transparent text-xs font-semibold text-espresso border border-espresso/15 rounded-full px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-terracotta cursor-pointer">
+            <option value="featured">Trending &amp; Featured</option>
+            <option value="rating">Highest Rated</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+          </select>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Editorial Hero Banner -->
+  <section id="heroBanner" class="relative overflow-hidden bg-gradient-to-br from-sand via-cream to-blush/50 border-b border-espresso/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-20">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <!-- Editorial Copy -->
+        <div class="lg:col-span-7 space-y-5">
+          <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-espresso/10 rounded-full px-3.5 py-1.5 text-xs font-medium tracking-wide text-espresso">
+            <span class="w-2 h-2 rounded-full bg-terracotta animate-pulse"></span>
+            CURATED VIRAL FORMULATIONS &bull; DERMATOLOGIST TESTED
+          </div>
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[1.08] text-espresso">
+            Glass-skin rituals, <span class="italic font-normal text-terracotta">distilled</span> for everyday radiance.
+          </h1>
+          <p class="text-taupe text-base sm:text-lg max-w-xl leading-relaxed">
+            Discover our highest-velocity barrier essentials—from 96% snail mucin hydration and white truffle bi-phase mists to weightless dewy liquid blushes and peptide lip glazes.
+          </p>
+          <div class="flex flex-wrap items-center gap-3 pt-2">
+            <a href="#catalogSection" onclick="selectCategory('Bestsellers')" class="bg-espresso text-cream hover:bg-terracotta px-6 py-3.5 rounded-full text-sm font-medium transition shadow-sm">
+              Shop Viral Bestsellers
+            </a>
+            <a href="#catalogSection" onclick="selectCategory('Skincare')" class="bg-white/90 hover:bg-white text-espresso border border-espresso/15 px-6 py-3.5 rounded-full text-sm font-medium transition">
+              Explore Barrier Skincare
+            </a>
+          </div>
+          <!-- Trust Indicators -->
+          <div class="grid grid-cols-3 gap-4 pt-4 max-w-md border-t border-espresso/10 text-xs text-taupe">
+            <div>
+              <p class="font-semibold text-espresso text-sm">100% Authentic</p>
+              <p>Direct brand sourcing</p>
+            </div>
+            <div>
+              <p class="font-semibold text-espresso text-sm">Cruelty-Free</p>
+              <p>Consciously formulated</p>
+            </div>
+            <div>
+              <p class="font-semibold text-espresso text-sm">4.9&#9733; Average</p>
+              <p>18,400+ verified reviews</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Editorial Visual Composition (Custom SVG Art + Floating Highlight Card) -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative rounded-3xl overflow-hidden bg-gradient-to-tr from-[#E6D5C8] via-[#F5ECE5] to-[#F9E8E4] p-6 sm:p-8 border border-espresso/10 shadow-lg">
+            <!-- Decorative Botanical & Bottle SVG Composition -->
+            <svg viewBox="0 0 400 340" class="w-full h-auto drop-shadow-md" aria-hidden="true">
+              <defs>
+                <radialGradient id="glowOrb" cx="50%" cy="45%" r="50%">
+                  <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95" />
+                  <stop offset="65%" stop-color="#F7DDD6" stop-opacity="0.55" />
+                  <stop offset="100%" stop-color="#E6D5C8" stop-opacity="0" />
+                </radialGradient>
+                <linearGradient id="serumGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.88" />
+                  <stop offset="50%" stop-color="#F9EFE6" stop-opacity="0.72" />
+                  <stop offset="100%" stop-color="#E7CEBD" stop-opacity="0.85" />
+                </linearGradient>
+                <linearGradient id="goldLiquid" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#F7DF9E" stop-opacity="0.65" />
+                  <stop offset="35%" stop-color="#F4C77B" stop-opacity="0.85" />
+                  <stop offset="100%" stop-color="#E39D64" stop-opacity="0.9" />
+                </linearGradient>
+                <linearGradient id="blushBottle" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#F3A69E" />
+                  <stop offset="100%" stop-color="#C86D58" />
+                </linearGradient>
+              </defs>
+
+              <!-- Soft Ambient Halo -->
+              <circle cx="200" cy="170" r="155" fill="url(#glowOrb)" />
+
+              <!-- Minimal Botanical Arch -->
+              <path d="M85 280 C85 120, 315 120, 315 280" fill="none" stroke="#C86D58" stroke-opacity="0.25" stroke-width="1.5" stroke-dasharray="4 4" />
+
+              <!-- Tall White Truffle Spray Serum Bottle -->
+              <g transform="translate(115, 58)">
+                <!-- Cap -->
+                <rect x="33" y="0" width="34" height="36" rx="8" fill="#D4AF37" fill-opacity="0.85" />
+                <rect x="36" y="4" width="8" height="28" rx="4" fill="#FFF" fill-opacity="0.4" />
+                <!-- Collar -->
+                <rect x="30" y="36" width="40" height="10" rx="3" fill="#B8962E" />
+                <!-- Bottle Body -->
+                <rect x="12" y="46" width="76" height="175" rx="22" fill="url(#serumGlass)" stroke="#FFFFFF" stroke-width="2" />
+                <!-- Bi-phase golden oil & essence -->
+                <rect x="16" y="82" width="68" height="134" rx="18" fill="url(#goldLiquid)" />
+                <path d="M16 112 Q50 104 84 112 L84 200 Q84 216 68 216 L32 216 Q16 216 16 200 Z" fill="#FFFDF9" fill-opacity="0.55" />
+                <!-- Label -->
+                <rect x="24" y="118" width="52" height="68" rx="6" fill="#FAF7F4" fill-opacity="0.92" />
+                <text x="50" y="142" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="11" font-weight="700" fill="#231D1A">AURA &amp; DEW</text>
+                <text x="50" y="156" text-anchor="middle" font-family="Inter, sans-serif" font-size="6.5" letter-spacing="1" fill="#786B63">TRUFFLE MIST</text>
+                <line x1="34" y1="165" x2="66" y2="165" stroke="#C86D58" stroke-width="1" />
+                <text x="50" y="176" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" fill="#786B63">100 ML</text>
+              </g>
+
+              <!-- Dewy Liquid Blush Bottle Foreground -->
+              <g transform="translate(218, 138)">
+                <!-- Cap with gold band -->
+                <rect x="20" y="0" width="32" height="34" rx="10" fill="#FAF7F4" stroke="#E5DDD5" stroke-width="1.5" />
+                <rect x="18" y="31" width="36" height="7" rx="2" fill="#D4AF37" />
+                <!-- Rounded Glass Vial -->
+                <rect x="8" y="38" width="56" height="106" rx="24" fill="url(#blushBottle)" stroke="#FFFFFF" stroke-width="2" />
+                <!-- Glass Highlight -->
+                <rect x="15" y="48" width="9" height="82" rx="4.5" fill="#FFFFFF" fill-opacity="0.35" />
+                <!-- Minimal Tag -->
+                <circle cx="36" cy="92" r="15" fill="#FAF7F4" fill-opacity="0.9" />
+                <text x="36" y="95" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="11" font-weight="700" fill="#231D1A">DEW</text>
+              </g>
+
+              <!-- Floating Dew Drops -->
+              <circle cx="95" cy="145" r="7" fill="#FFFFFF" fill-opacity="0.75" />
+              <circle cx="305" cy="110" r="10" fill="#FFFFFF" fill-opacity="0.65" />
+              <circle cx="290" cy="245" r="6" fill="#C86D58" fill-opacity="0.3" />
+            </svg>
+
+            <!-- Floating Product Callout Pill -->
+            <div class="mt-2 bg-white/95 backdrop-blur-md rounded-2xl p-4 border border-espresso/10 flex items-center justify-between gap-4 shadow-sm">
+              <div>
+                <span class="text-[11px] font-semibold uppercase tracking-wider text-terracotta">#1 Viral Duo</span>
+                <p class="font-serif text-lg font-semibold text-espresso">Truffle Mist &amp; Dewy Blush</p>
+                <p class="text-xs text-taupe">Instant luminous finish &bull; In stock</p>
+              </div>
+              <button onclick="openQuickView(2)" class="shrink-0 bg-sand hover:bg-blush text-espresso text-xs font-semibold px-4 py-2.5 rounded-full transition">
+                Quick View
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Catalog Section -->
+  <main id="catalogSection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+    <!-- Section Header & Active Filters -->
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+      <div>
+        <p id="catalogEyebrow" class="text-xs font-semibold uppercase tracking-widest text-terracotta mb-1">Curated Edit</p>
+        <h2 id="catalogTitle" class="font-serif text-3xl sm:text-4xl font-semibold text-espresso">All Trending Beauty</h2>
+      </div>
+
+      <div class="flex items-center justify-between sm:justify-end gap-3">
+        <span id="productCountLabel" class="text-sm text-taupe">Showing 12 products</span>
+        <!-- Mobile Sort Dropdown -->
+        <select id="mobileSortSelect" onchange="handleSortChange(this.value)" class="lg:hidden bg-white text-xs font-semibold text-espresso border border-espresso/15 rounded-full px-3 py-2 focus:outline-none">
+          <option value="featured">Featured</option>
+          <option value="rating">Top Rated</option>
+          <option value="price-asc">Price: Low-High</option>
+          <option value="price-desc">Price: High-Low</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Active Filter Pill Bar (Shown when searching or viewing wishlist) -->
+    <div id="activeFilterBar" class="hidden flex-wrap items-center gap-2 mb-6">
+      <span class="text-xs text-taupe">Active filters:</span>
+      <div id="activeFilterChips" class="flex flex-wrap gap-2"></div>
+      <button onclick="resetFilters()" class="text-xs font-semibold text-terracotta hover:underline ml-2">Clear all</button>
+    </div>
+
+    <!-- Responsive Product Grid -->
+    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <!-- Product Cards injected via JS -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="hidden text-center py-20 px-4 bg-sand/50 rounded-3xl border border-espresso/10">
+      <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-blush/60 flex items-center justify-center text-espresso">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 103.5 10.5a7.5 7.5 0 0013.15 6.15z" />
+        </svg>
+      </div>
+      <h3 class="font-serif text-2xl font-semibold text-espresso mb-2">No beauty matches found</h3>
+      <p class="text-sm text-taupe max-w-md mx-auto mb-6">We couldn't find any formulations matching your current search or filter. Try resetting your filters to explore our full range.</p>
+      <button onclick="resetFilters()" class="bg-espresso text-cream hover:bg-terracotta px-6 py-3 rounded-full text-sm font-medium transition">
+        Reset Filters &amp; Show All
+      </button>
+    </div>
+  </main>
+
+  <!-- Editorial Skincare Routine Banner -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+    <div class="bg-espresso text-cream rounded-3xl p-6 sm:p-10 lg:p-12 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+      <div class="lg:col-span-2 space-y-3">
+        <span class="inline-block text-xs font-semibold uppercase tracking-widest text-blush">4-Step Glass Skin Protocol</span>
+        <h3 class="font-serif text-3xl sm:text-4xl font-semibold">Build your complete barrier routine &amp; save 15%</h3>
+        <p class="text-cream/75 text-sm sm:text-base max-w-2xl">
+          Layer our Snail 96 Mucin Essence, White Truffle Spray Serum, Ceramide Barrier Cream, and Invisible Mineral SPF 50+ for round-the-clock hydration. Apply promo code <span class="font-semibold text-blush">GLOW15</span> in your bag.
+        </p>
+      </div>
+      <div class="flex lg:justify-end">
+        <button onclick="addRoutineBundle()" class="w-full sm:w-auto bg-blush text-espresso hover:bg-white font-semibold px-6 py-4 rounded-full text-sm transition shadow-md">
+          Add 4-Step Routine to Bag
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Minimalist Footer -->
+  <footer class="bg-sand border-t border-espresso/10 text-espresso">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-espresso/10">
+        <div class="space-y-3">
+          <span class="font-serif text-2xl font-semibold tracking-tight">AURA <span class="italic text-terracotta">&amp;</span> DEW</span>
+          <p class="text-xs text-taupe leading-relaxed">
+            Modern Australian beauty destination curating high-efficacy K-beauty icons, barrier-first skincare, and luminous complexion essentials. All prices in AUD inclusive of GST.
+          </p>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider mb-3">Shop Categories</h4>
+          <ul class="space-y-2 text-sm text-taupe">
+            <li><button onclick="selectCategory('Skincare')" class="hover:text-espresso transition">Barrier Skincare</button></li>
+            <li><button onclick="selectCategory('Makeup')" class="hover:text-espresso transition">Dewy Makeup</button></li>
+            <li><button onclick="selectCategory('Hair & Body')" class="hover:text-espresso transition">Hair &amp; Body Care</button></li>
+            <li><button onclick="selectCategory('Bestsellers')" class="hover:text-espresso transition">Viral Bestsellers</button></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider mb-3">Client Care</h4>
+          <ul class="space-y-2 text-sm text-taupe">
+            <li><span>Free AU Express Shipping ($75+)</span></li>
+            <li><span>30-Day Empty-Bottle Guarantee</span></li>
+            <li><span>Cruelty-Free &amp; Reef-Safe SPF</span></li>
+            <li><span>Melbourne, Victoria Studio</span></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider mb-3">Insider Perks</h4>
+          <p class="text-xs text-taupe mb-3">Join for early access to limited shade drops and 15% off your first order.</p>
+          <form onsubmit="handleNewsletter(event)" class="flex gap-2">
+            <input type="email" required placeholder="you@example.com.au" class="w-full bg-white border border-espresso/15 rounded-full px-3.5 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-terracotta" />
+            <button type="submit" class="bg-espresso text-cream hover:bg-terracotta px-4 py-2 rounded-full text-xs font-semibold shrink-0 transition">Join</button>
+          </form>
+        </div>
+      </div>
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-taupe gap-2">
+        <p>&copy; 2026 AURA &amp; DEW Beauty Australia Pty Ltd. All rights reserved.</p>
+        <p>Prices shown in Australian Dollars (AUD).</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- QUICK-VIEW PRODUCT MODAL -->
+  <div id="quickViewModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="modalProductTitle">
+    <!-- Backdrop -->
+    <div onclick="closeQuickView()" class="fixed inset-0 bg-espresso/50 backdrop-blur-sm transition-opacity"></div>
+
+    <!-- Modal Panel -->
+    <div class="relative z-10 bg-cream w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl border border-espresso/10 grid grid-cols-1 md:grid-cols-12">
+      <!-- Close Button -->
+      <button onclick="closeQuickView()" aria-label="Close modal" class="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-white/90 hover:bg-espresso hover:text-cream text-espresso flex items-center justify-center shadow-sm transition">
+        &times;
+      </button>
+
+      <!-- Left Visual / Bottle Art -->
+      <div id="modalVisualContainer" class="md:col-span-5 bg-sand/80 p-6 sm:p-8 flex flex-col items-center justify-center relative min-h-[240px]">
+        <!-- SVG Illustration injected dynamically -->
+      </div>
+
+      <!-- Right Product Details & Selectors -->
+      <div class="md:col-span-7 p-6 sm:p-8 flex flex-col justify-between space-y-5">
+        <div class="space-y-3">
+          <div class="flex flex-wrap items-center gap-2">
+            <span id="modalBrand" class="text-xs font-bold uppercase tracking-widest text-terracotta">BRAND</span>
+            <span id="modalBadge" class="text-[11px] font-semibold bg-blush/70 text-espresso px-2.5 py-0.5 rounded-full">Viral Pick</span>
+          </div>
+
+          <h3 id="modalProductTitle" class="font-serif text-2xl sm:text-3xl font-semibold text-espresso leading-tight">Product Name</h3>
+
+          <!-- Rating & Price -->
+          <div class="flex items-center justify-between pt-1">
+            <div class="flex items-center gap-1.5 text-sm">
+              <span class="text-amber-500">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+              <span id="modalRating" class="font-semibold text-espresso">4.9</span>
+              <span id="modalReviews" class="text-taupe text-xs">(1,240 reviews)</span>
+            </div>
+            <div class="text-right">
+              <span id="modalPrice" class="text-xl font-bold text-espresso">$38.00 AUD</span>
+            </div>
+          </div>
+
+          <p id="modalDescription" class="text-sm text-taupe leading-relaxed">
+            Product description goes here.
+          </p>
+
+          <!-- Shade / Size Selector -->
+          <div id="modalVariantSection" class="pt-2 space-y-2">
+            <div class="flex items-center justify-between">
+              <span id="modalVariantLabel" class="text-xs font-bold uppercase tracking-wider text-espresso">Select Shade</span>
+              <span id="modalSelectedVariantName" class="text-xs font-medium text-terracotta">Hope (Nude Mauve)</span>
+            </div>
+            <div id="modalVariantOptions" class="flex flex-wrap gap-2">
+              <!-- Variant chips or color swatches injected here -->
+            </div>
+          </div>
+
+          <!-- Key Ingredients / Benefits Accordion -->
+          <div class="pt-3 border-t border-espresso/10 space-y-2">
+            <p class="text-xs font-bold uppercase tracking-wider text-espresso">Hero Ingredients &amp; Skin Benefits</p>
+            <div id="modalIngredients" class="flex flex-wrap gap-1.5">
+              <!-- Ingredient tags injected here -->
+            </div>
+            <p id="modalHowToUse" class="text-xs text-taupe pt-1 italic">
+              How to use instructions.
+            </p>
+          </div>
+        </div>
+
+        <!-- Quantity & Add to Bag CTA -->
+        <div class="pt-4 border-t border-espresso/10 flex items-center gap-3">
+          <div class="flex items-center border border-espresso/20 rounded-full bg-white px-2 py-1">
+            <button onclick="adjustModalQty(-1)" class="w-8 h-8 rounded-full hover:bg-sand text-espresso font-semibold transition">&minus;</button>
+            <span id="modalQtyDisplay" class="w-8 text-center text-sm font-semibold">1</span>
+            <button onclick="adjustModalQty(1)" class="w-8 h-8 rounded-full hover:bg-sand text-espresso font-semibold transition">+</button>
+          </div>
+          <button id="modalAddToCartBtn" onclick="addModalProductToCart()" class="flex-1 bg-espresso hover:bg-terracotta text-cream font-semibold py-3.5 px-6 rounded-full text-sm transition shadow-md">
+            Add to Bag &mdash; $38.00 AUD
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE-OUT SHOPPING CART DRAWER -->
+  <div id="cartDrawer" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true" aria-label="Shopping Bag">
+    <!-- Backdrop -->
+    <div id="cartBackdrop" onclick="closeCart()" class="fixed inset-0 bg-espresso/45 backdrop-blur-xs transition-opacity"></div>
+
+    <!-- Drawer Panel -->
+    <div class="fixed inset-y-0 right-0 w-full max-w-md bg-cream shadow-2xl border-l border-espresso/10 flex flex-col justify-between z-10">
+      <!-- Drawer Header -->
+      <div class="p-5 sm:p-6 border-b border-espresso/10 bg-cream">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <h2 class="font-serif text-2xl font-semibold text-espresso">Your Beauty Bag</h2>
+            <span id="drawerItemCount" class="text-xs font-semibold bg-sand text-espresso px-2.5 py-0.5 rounded-full">0 items</span>
+          </div>
+          <button onclick="closeCart()" aria-label="Close Cart" class="w-9 h-9 rounded-full hover:bg-sand flex items-center justify-center text-espresso text-xl transition">
+            &times;
+          </button>
+        </div>
+
+        <!-- Free Shipping Progress Bar -->
+        <div class="mt-4 bg-sand/80 rounded-2xl p-3">
+          <p id="shippingProgressText" class="text-xs font-medium text-espresso mb-2">
+            Add <span class="font-bold text-terracotta">$75.00 AUD</span> more for FREE Express AU Shipping
+          </p>
+          <div class="w-full h-2 bg-espresso/10 rounded-full overflow-hidden">
+            <div id="shippingProgressBar" class="h-full bg-terracotta rounded-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Drawer Body (Cart Items OR Checkout Flow) -->
+      <div id="cartBodyContainer" class="flex-1 overflow-y-auto p-5 sm:p-6 space-y-4">
+        <!-- Cart Items injected here -->
+      </div>
+
+      <!-- Drawer Footer (Promo Code + Totals + Checkout Button) -->
+      <div id="cartFooterContainer" class="p-5 sm:p-6 border-t border-espresso/10 bg-sand/50 space-y-4">
+        <!-- Promo Code Input -->
+        <div>
+          <form onsubmit="applyPromoCode(event)" class="flex gap-2">
+            <input
+              type="text"
+              id="promoCodeInput"
+              placeholder="Promo code (try GLOW15 or DEW10)"
+              class="flex-1 bg-white border border-espresso/15 rounded-full px-4 py-2 text-xs uppercase tracking-wider text-espresso placeholder:normal-case placeholder:tracking-normal focus:outline-none focus:ring-1 focus:ring-terracotta"
+            />
+            <button type="submit" class="bg-espresso text-cream hover:bg-terracotta px-4 py-2 rounded-full text-xs font-semibold transition">
+              Apply
+            </button>
+          </form>
+          <div id="promoFeedback" class="hidden mt-1.5 flex items-center justify-between text-xs">
+            <span id="promoMessage" class="text-emerald-700 font-medium"></span>
+            <button onclick="removePromoCode()" class="text-taupe hover:text-espresso underline">Remove</button>
+          </div>
+        </div>
+
+        <!-- Price Breakdown -->
+        <div class="space-y-1.5 text-sm">
+          <div class="flex justify-between text-taupe">
+            <span>Subtotal</span>
+            <span id="cartSubtotal">$0.00 AUD</span>
+          </div>
+          <div id="discountRow" class="hidden flex justify-between text-emerald-700 font-medium">
+            <span id="discountLabel">Discount (15%)</span>
+            <span id="cartDiscount">-$0.00 AUD</span>
+          </div>
+          <div class="flex justify-between text-taupe">
+            <span>AU Express Shipping</span>
+            <span id="cartShipping">$9.95 AUD</span>
+          </div>
+          <div class="flex justify-between text-base font-bold text-espresso pt-2 border-t border-espresso/10">
+            <span>Total (incl. GST)</span>
+            <span id="cartTotal">$0.00 AUD</span>
+          </div>
+        </div>
+
+        <!-- Primary Action Button -->
+        <button id="proceedCheckoutBtn" onclick="startSimulatedCheckout()" class="w-full bg-espresso hover:bg-terracotta text-cream font-semibold py-3.5 rounded-full text-sm transition shadow-md">
+          Proceed to Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container (Replaces alert) -->
+  <div id="toastContainer" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[60] flex flex-col items-center gap-2 pointer-events-none"></div>
+
+  <!-- Application Logic & Product Catalog Data -->
+  <script>
+    // =========================================================================
+    // 1. PRODUCT CATALOG DATA (AUD Pricing, Shades/Sizes, Ingredients, Art)
+    // =========================================================================
+    const PRODUCTS = [
+      {
+        id: 1,
+        brand: "COSRX",
+        name: "Advanced Snail 96 Mucin Power Essence",
+        category: "Skincare",
+        bestseller: true,
+        badge: "Viral #1 Hydrator",
+        price: 34.00,
+        rating: 4.9,
+        reviews: 4820,
+        variantType: "Size",
+        variants: [
+          { name: "100ml Standard", priceDelta: 0 },
+          { name: "200ml Value Refill", priceDelta: 22.00 }
+        ],
+        ingredients: ["96.3% Snail Secretion Filtrate", "Sodium Hyaluronate", "Panthenol", "Allantoin"],
+        description: "Lightweight, fast-absorbing essence formulated with 96.3% snail mucin to repair damaged skin barriers, calm visible redness, and deliver lasting glass-skin bounce without heaviness.",
+        howToUse: "After cleansing and toning, gently pat 2–3 pumps across damp face and neck before sealing with moisturizer.",
+        artStyle: "pump-bottle",
+        accentColor: "#E8DFD5",
+        liquidColor: "#FBF9F5"
+      },
+      {
+        id: 2,
+        brand: "d'Alba Piedmont",
+        name: "White Truffle First Spray Serum",
+        category: "Skincare",
+        bestseller: true,
+        badge: "Makeup Artist Favorite",
+        price: 42.00,
+        rating: 4.9,
+        reviews: 3190,
+        variantType: "Size",
+        variants: [
+          { name: "100ml Mist", priceDelta: 0 },
+          { name: "180ml Jumbo Mist", priceDelta: 24.00 }
+        ],
+        ingredients: ["Italian White Truffle Extract", "Avocado Oil", "Niacinamide", "Chia Seed Extract"],
+        description: "A luxurious bi-phase serum mist combining botanical oils and antioxidant-rich white truffle to flood dehydrated skin with instant luminosity under or over makeup.",
+        howToUse: "Shake 3–5 times to blend the golden oil and serum layers, then mist evenly 20cm from the face.",
+        artStyle: "mist-bottle",
+        accentColor: "#F5DDA9",
+        liquidColor: "#F4C77B"
+      },
+      {
+        id: 3,
+        brand: "Rare Beauty",
+        name: "Soft Pinch Liquid Dewy Blush",
+        category: "Makeup",
+        bestseller: true,
+        badge: "12-Hr Pigment",
+        price: 44.00,
+        rating: 4.8,
+        reviews: 5410,
+        variantType: "Shade",
+        variants: [
+          { name: "Hope (Nude Mauve)", swatch: "#D98A8C", priceDelta: 0 },
+          { name: "Happy (Dewy Cool Pink)", swatch: "#EE7E99", priceDelta: 0 },
+          { name: "Joy (Muted Peach)", swatch: "#E5836B", priceDelta: 0 },
+          { name: "Encourage (Soft Neutral Pink)", swatch: "#C77978", priceDelta: 0 }
+        ],
+        ingredients: ["Lotus Flower Extract", "Gardenia Fruit", "White Waterlily", "Vitamin E"],
+        description: "Weightless, ultra-pigmented liquid blush that melts effortlessly into bare skin or foundation for a pinch-worthy, lit-from-within dewy flush that lasts up to 12 hours.",
+        howToUse: "Apply one tiny dot onto the apples of cheeks using the doe-foot applicator and blend upward with fingertips or a dense brush.",
+        artStyle: "blush-vial",
+        accentColor: "#E8A2A4",
+        liquidColor: "#D98A8C"
+      },
+      {
+        id: 4,
+        brand: "Rhode & Glow Lab",
+        name: "Peptide Lip Luminizer Tint",
+        category: "Makeup",
+        bestseller: true,
+        badge: "Sold Out 4x",
+        price: 32.00,
+        rating: 4.9,
+        reviews: 2890,
+        variantType: "Shade",
+        variants: [
+          { name: "Ribbon (Sheer Ballet Pink)", swatch: "#F3B6C2", priceDelta: 0 },
+          { name: "Toast (Rose Taupe)", swatch: "#B97D72", priceDelta: 0 },
+          { name: "Espresso (Rich Cocoa Glaze)", swatch: "#6E443B", priceDelta: 0 },
+          { name: "Salted Caramel (Clear Shimmer)", swatch: "#E5C1A1", priceDelta: 0 }
+        ],
+        ingredients: ["Palmitoyl Tripeptide-1", "Shea Butter", "Cupuaçu Butter", "Babassu Oil"],
+        description: "Restorative cushion-gloss treatment packed with peptides and whipped shea butter to visibly plump dry lips while imparting a non-sticky, mirror-like tint.",
+        howToUse: "Swipe generously across lips day or night, or layer over lip liner for dimensional fullness.",
+        artStyle: "lip-tube",
+        accentColor: "#E8B7C0",
+        liquidColor: "#D88C9A"
+      },
+      {
+        id: 5,
+        brand: "Aestura",
+        name: "Atobarrier 365 Ceramide Repair Cream",
+        category: "Skincare",
+        bestseller: true,
+        badge: "Barrier Hero",
+        price: 48.00,
+        rating: 4.9,
+        reviews: 2150,
+        variantType: "Size",
+        variants: [
+          { name: "80ml Tube", priceDelta: 0 },
+          { name: "150ml Family Tube", priceDelta: 28.00 }
+        ],
+        ingredients: ["Triple Lipid Ceramide Capsules", "Cholesterol", "Fatty Acids", "Squalane"],
+        description: "Dermatologist-engineered barrier moisturizer featuring visible micro-ceramide capsules that burst upon application to lock in 100 hours of moisture for compromised or sensitive skin.",
+        howToUse: "Warm a pearl-sized amount between fingertips to dissolve ceramide beads and press gently onto face.",
+        artStyle: "cream-tube",
+        accentColor: "#DCE6EE",
+        liquidColor: "#F7FAFC"
+      },
+      {
+        id: 6,
+        brand: "Ultra Violette",
+        name: "Lean Screen Mineral Mattifying SPF 50+",
+        category: "Skincare",
+        bestseller: true,
+        badge: "Australian Made SPF",
+        price: 52.00,
+        rating: 4.8,
+        reviews: 1940,
+        variantType: "Size",
+        variants: [
+          { name: "75ml Tube", priceDelta: 0 },
+          { name: "150ml Mega Tube", priceDelta: 34.00 }
+        ],
+        ingredients: ["22.75% Non-Nano Zinc Oxide", "Kakadu Plum", "Pentavitin", "Vitamin E"],
+        description: "Broad-spectrum SPF 50+ 100% mineral zinc sunscreen formulated in Australia with a subtle skin-adapting tint that eliminates white cast and leaves a soft satin finish.",
+        howToUse: "Apply 5 pumps evenly over face, neck, and ears as the final step of your morning skincare routine, 20 minutes prior to sun exposure.",
+        artStyle: "spf-tube",
+        accentColor: "#F6D5B8",
+        liquidColor: "#EBC3A3"
+      },
+      {
+        id: 7,
+        brand: "Gisou",
+        name: "Honey Infused Hair Repair Oil",
+        category: "Hair & Body",
+        bestseller: true,
+        badge: "Frizz Control",
+        price: 68.00,
+        rating: 4.8,
+        reviews: 1620,
+        variantType: "Size",
+        variants: [
+          { name: "50ml Dropper", priceDelta: 0 },
+          { name: "100ml Salon Size", priceDelta: 42.00 }
+        ],
+        ingredients: ["Mirsalehi Bee Garden Honey", "Sweet Almond Oil", "Coconut Oil", "Propolis"],
+        description: "Multi-tasking hair elixir enriched with sustainably sourced honey to tame flyaways, mend split ends, and impart luminous shine without weighing fine strands down.",
+        howToUse: "Warm 1–3 drops in palms and smooth through mid-lengths and ends on damp or dry hair.",
+        artStyle: "dropper-bottle",
+        accentColor: "#F3C66F",
+        liquidColor: "#E3A638"
+      },
+      {
+        id: 8,
+        brand: "Skin1004",
+        name: "Madagascar Centella Ampoule Foam",
+        category: "Skincare",
+        bestseller: false,
+        badge: "pH 5.5 Gentle",
+        price: 26.00,
+        rating: 4.7,
+        reviews: 1380,
+        variantType: "Size",
+        variants: [
+          { name: "125ml Cleanser", priceDelta: 0 }
+        ],
+        ingredients: ["30% Centella Asiatica Extract", "Coco-Betaine", "Sodium Hyaluronate", "Cacao Extract"],
+        description: "Whipped micro-foam cleanser infused with pure Madagascar Centella to lift daily SPF and impurities while keeping your skin's acid mantle calm and hydrated.",
+        howToUse: "Lather a small amount with lukewarm water, massage onto damp skin for 30 seconds, and rinse clean.",
+        artStyle: "cream-tube",
+        accentColor: "#E4D3BE",
+        liquidColor: "#F6EFE6"
+      },
+      {
+        id: 9,
+        brand: "Saie",
+        name: "Glowy Super Gel Lightweight Illuminator",
+        category: "Makeup",
+        bestseller: false,
+        badge: "75% Water Base",
+        price: 46.00,
+        rating: 4.8,
+        reviews: 1750,
+        variantType: "Shade",
+        variants: [
+          { name: "Starglow (Universal Champagne)", swatch: "#F2DEC4", priceDelta: 0 },
+          { name: "Sunglow (Warm Bronze)", swatch: "#C89368", priceDelta: 0 },
+          { name: "Roseglow (Soft Rose Gold)", swatch: "#E5B3A8", priceDelta: 0 }
+        ],
+        ingredients: ["Papaya Seed Oil", "Plant-Derived Squalane", "Vitamin C", "Rosehip Seed Oil"],
+        description: "Multi-use water-gel luminizer that delivers a fresh, glassy sheen without chunky glitter—wear alone, beneath foundation, or tapped onto cheekbones.",
+        howToUse: "Dispense 1–2 pumps and blend over high points of the face or mix directly into your daily moisturizer.",
+        artStyle: "pump-bottle",
+        accentColor: "#F2DEC4",
+        liquidColor: "#EAD0B0"
+      },
+      {
+        id: 10,
+        brand: "Sol de Janeiro",
+        name: "Delícia Drench Whipped Body Butter",
+        category: "Hair & Body",
+        bestseller: true,
+        badge: "24-Hr Moisture",
+        price: 72.00,
+        rating: 4.9,
+        reviews: 2640,
+        variantType: "Size",
+        variants: [
+          { name: "240ml Jar", priceDelta: 0 },
+          { name: "75ml Travel Jar", priceDelta: -34.00 }
+        ],
+        ingredients: ["Brazilian Soothing Complex", "Bacuri Butter", "Prebiotic Hibiscus", "Hyaluronic Acid"],
+        description: "Velvety, whipped body cream that deeply replenishes dry skin barriers with notes of vanilla orchid, sugared violet, and sheer sandalwood.",
+        howToUse: "Massage generously all over the body after showering while skin is still slightly damp.",
+        artStyle: "jar-pot",
+        accentColor: "#DFC8E8",
+        liquidColor: "#EFE3F4"
+      },
+      {
+        id: 11,
+        brand: "Kosas",
+        name: "Revealer Super Creamy Brightening Concealer",
+        category: "Makeup",
+        bestseller: false,
+        badge: "Eye Cream + Coverage",
+        price: 49.00,
+        rating: 4.7,
+        reviews: 1490,
+        variantType: "Shade",
+        variants: [
+          { name: "02W (Light Warm)", swatch: "#F1D4B8", priceDelta: 0 },
+          { name: "03.5N (Light-Medium Neutral)", swatch: "#DFB895", priceDelta: 0 },
+          { name: "05.5O (Medium Olive)", swatch: "#C79C74", priceDelta: 0 },
+          { name: "07W (Tan Golden)", swatch: "#A47249", priceDelta: 0 }
+        ],
+        ingredients: ["Caffeine", "Pink Algae Extract", "Arnica", "Hyaluronic Acid"],
+        description: "Medium-to-full coverage crease-resistant concealer and brightening eye treatment in one, visibly depuffing under-eyes with a natural skin-like finish.",
+        howToUse: "Swipe under eyes or over blemishes and tap gently with ring finger or damp sponge.",
+        artStyle: "blush-vial",
+        accentColor: "#E8C9A8",
+        liquidColor: "#DFB895"
+      },
+      {
+        id: 12,
+        brand: "Ouai",
+        name: "Detox Clarifying Apple Cider Scalp Shampoo",
+        category: "Hair & Body",
+        bestseller: false,
+        badge: "Weekly Reset",
+        price: 54.00,
+        rating: 4.8,
+        reviews: 1120,
+        variantType: "Size",
+        variants: [
+          { name: "300ml Bottle", priceDelta: 0 },
+          { name: "946ml Refill Pouch", priceDelta: 48.00 }
+        ],
+        ingredients: ["Apple Cider Vinegar", "Hydrolyzed Keratin", "Chelating Agents", "Panthenol"],
+        description: "Concentrated clarifying wash that gently dissolves dry shampoo buildup, excess sebum, and hard-water minerals while leaving hair glossy and bouncy.",
+        howToUse: "Use once weekly in place of regular shampoo; massage into wet scalp for 1–2 minutes before rinsing thoroughly.",
+        artStyle: "pump-bottle",
+        accentColor: "#E5E2DC",
+        liquidColor: "#F4F2EE"
+      }
+    ];
+
+    const CATEGORIES = ["All", "Skincare", "Makeup", "Hair & Body", "Bestsellers"];
+
+    const PROMO_CODES = {
+      "GLOW15": { discount: 0.15, label: "15% Off Sitewide (GLOW15)" },
+      "DEW10": { discount: 0.10, label: "10% Welcome Offer (DEW10)" }
+    };
+
+    // =========================================================================
+    // 2. APPLICATION STATE
+    // =========================================================================
+    let state = {
+      selectedCategory: "All",
+      searchQuery: "",
+      sortBy: "featured",
+      wishlistOnly: false,
+      wishlist: [1, 3], // Pre-populate two popular items so user sees how wishlist works
+      cart: [
+        { productId: 1, variantIndex: 0, qty: 1 },
+        { productId: 3, variantIndex: 0, qty: 1 }
+      ],
+      appliedPromo: null,
+      modalProduct: null,
+      modalVariantIndex: 0,
+      modalQty: 1,
+      checkoutStep: "cart" // "cart" | "form" | "success"
+    };
+
+    // =========================================================================
+    // 3. CUSTOM SVG PRODUCT ILLUSTRATION GENERATOR
+    // =========================================================================
+    function renderProductSVG(product, large = false) {
+      const sizeClass = large ? "w-48 h-48 sm:w-56 sm:h-56" : "w-36 h-36";
+      const accent = product.accentColor || "#EBD7D2";
+      const liquid = product.liquidColor || "#FAF7F4";
+
+      switch (product.artStyle) {
+        case "pump-bottle":
+          return `
+            <svg viewBox="0 0 160 160" class="${sizeClass} drop-shadow-sm transition-transform duration-500 group-hover:scale-105" aria-hidden="true">
+              <circle cx="80" cy="85" r="62" fill="${accent}" fill-opacity="0.45" />
+              <path d="M74 22 L96 22 L96 29 L84 29 L84 38 L74 38 Z" fill="#231D1A" />
+              <rect x="68" y="38" width="24" height="10" rx="3" fill="#D8CFC6" />
+              <rect x="54" y="48" width="52" height="90" rx="14" fill="#FFFFFF" stroke="#E5DDD5" stroke-width="1.5" />
+              <rect x="58" y="56" width="44" height="78" rx="11" fill="${liquid}" />
+              <rect x="62" y="72" width="36" height="44" rx="4" fill="#FAF7F4" fill-opacity="0.92" />
+              <text x="80" y="90" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="8.5" font-weight="700" fill="#231D1A">${product.brand.slice(0, 10).toUpperCase()}</text>
+              <line x1="68" y1="96" x2="92" y2="96" stroke="#C86D58" stroke-width="1" />
+              <text x="80" y="106" text-anchor="middle" font-family="Inter, sans-serif" font-size="5.5" fill="#786B63">ESSENCE</text>
+            </svg>`;
+        case "mist-bottle":
+          return `
+            <svg viewBox="0 0 160 160" class="${sizeClass} drop-shadow-sm transition-transform duration-500 group-hover:scale-105" aria-hidden="true">
+              <circle cx="80" cy="85" r="62" fill="${accent}" fill-opacity="0.4" />
+              <rect x="68" y="20" width="24" height="20" rx="5" fill="#D4AF37" />
+              <rect x="66" y="40" width="28" height="7" rx="2" fill="#B8962E" />
+              <rect x="55" y="47" width="50" height="92" rx="14" fill="#FFFFFF" fill-opacity="0.85" stroke="#E5DDD5" stroke-width="1.5" />
+              <rect x="58" y="65" width="44" height="70" rx="11" fill="${liquid}" fill-opacity="0.85" />
+              <rect x="58" y="85" width="44" height="50" rx="11" fill="#FFFDF9" fill-opacity="0.6" />
+              <rect x="63" y="76" width="34" height="42" rx="4" fill="#FAF7F4" fill-opacity="0.95" />
+              <text x="80" y="94" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="8" font-weight="700" fill="#231D1A">TRUFFLE</text>
+              <text x="80" y="105" text-anchor="middle" font-family="Inter, sans-serif" font-size="5.5" fill="#786B63">SPRAY SERUM</text>
+            </svg>`;
+        case "blush-vial":
+          return `
+            <svg viewBox="0 0 160 160" class="${sizeClass} drop-shadow-sm transition-transform duration-500 group-hover:scale-105" aria-hidden="true">
+              <circle cx="80" cy="85" r="62" fill="${accent}" fill-opacity="0.38" />
+              <rect x="67" y="24" width="26" height="26" rx="8" fill="#FAF7F4" stroke="#DDD3C9" stroke-width="1.5" />
+              <rect x="65" y="47" width="30" height="6" rx="2" fill="#D4AF37" />
+              <rect x="57" y="53" width="46" height="84" rx="20" fill="${liquid}" stroke="#FFFFFF" stroke-width="1.5" />
+              <rect x="63" y="61" width="7" height="64" rx="3.5" fill="#FFFFFF" fill-opacity="0.35" />
+              <circle cx="80" cy="95" r="12" fill="#FAF7F4" fill-opacity="0.92" />
+              <text x="80" y="98" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="8.5" font-weight="700" fill="#231D1A">DEW</text>
+            </svg>`;
+        case "lip-tube":
+          return `
+            <svg viewBox="0 0 160 160" class="${sizeClass} drop-shadow-sm transition-transform duration-500 group-hover:scale-105" aria-hidden="true">
+              <circle cx="80" cy="85" r="62" fill="${accent}" fill-opacity="0.42" />
+              <g transform="rotate(-14 80 82)">
+                <rect x="67" y="22" width="26" height="22" rx="5" fill="#FAF7F4" stroke="#D8CFC6" stroke-width="1.5" />
+                <path d="M62 44 L98 44 L93 134 C93 138 67 138 67 134 Z" fill="${liquid}" stroke="#FFFFFF" stroke-width="1.5" />
+                <rect x="68" y="66" width="24" height="44" rx="4" fill="#FAF7F4" fill-opacity="0.9" />
+                <text x="80" y="86" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="8" font-weight="700" fill="#231D1A">PEPTIDE</text>
+                <text x="80" y="97" text-anchor="middle" font-family="Inter, sans-serif" font-size="5.5" fill="#786B63">LIP GLAZE</text>
+              </g>
+            </svg>`;
+        case "dropper-bottle":
+          return `
+            <svg viewBox="0 0 160 160" class="${sizeClass} drop-shadow-sm transition-transform duration-500 group-hover:scale-105" aria-hidden="true">
+              <circle cx="80" cy="85" r="62" fill="${accent}" fill-opacity="0.4" />
+              <path d="M73 20 C73 14 87 14 87 20 L89 36 L71 36 Z" fill="#FAF7F4" stroke="#D8CFC6" stroke-width="1.2" />
+              <rect x="68" y="36" width="24" height="9" rx="2" fill="#D4AF37" />
+              <rect x="56" y="45" width="48" height="92" rx="16" fill="${liquid}" stroke="#FFFFFF" stroke-width="1.8" />
+              <rect x="63" y="72" width="34" height="44" rx="4" fill="#FAF7F4" fill-opacity="0.94" />
+              <text x="80" y="91" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="8.5" font-weight="700" fill="#231D1A">HONEY</text>
+              <text x="80" y="102" text-anchor="middle" font-family="Inter, sans-serif" font-size="5.5" fill="#786B63">HAIR ELIXIR</text>
+            </svg>`;
+        case "jar-pot":
+          return `
+            <svg viewBox="0 0 160 160" class="${sizeClass} drop-shadow-sm transition-transform duration-500 group-hover:scale-105" aria-hidden="true">
+              <circle cx="80" cy="85" r="62" fill="${accent}" fill-opacity="0.45" />
+              <rect x="46" y="54" width="68" height="16" rx="7" fill="#FAF7F4" stroke="#D8CFC6" stroke-width="1.5" />
+              <rect x="44" y="70" width="72" height="58" rx="18" fill="${liquid}" stroke="#FFFFFF" stroke-width="1.5" />
+              <rect x="56" y="82" width="48" height="32" rx="6" fill="#FAF7F4" fill-opacity="0.92" />
+              <text x="80" y="97" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="8.5" font-weight="700" fill="#231D1A">DRENCH</text>
+              <text x="80" y="107" text-anchor="middle" font-family="Inter, sans-serif" font-size="5.5" fill="#786B63">BODY BUTTER</text>
+            </svg>`;
+        default:
+          // cream-tube / spf-tube
+          return `
+            <svg viewBox="0 0 160 160" class="${sizeClass} drop-shadow-sm transition-transform duration-500 group-hover:scale-105" aria-hidden="true">
+              <circle cx="80" cy="85" r="62" fill="${accent}" fill-opacity="0.45" />
+              <path d="M54 32 L106 32 L98 118 L62 118 Z" fill="${liquid}" stroke="#FFFFFF" stroke-width="1.5" />
+              <rect x="54" y="28" width="52" height="8" rx="2" fill="#E5DDD5" />
+              <rect x="68" y="118" width="24" height="18" rx="4" fill="#231D1A" />
+              <text x="80" y="68" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="8.5" font-weight="700" fill="#231D1A">${product.brand.slice(0, 10).toUpperCase()}</text>
+              <line x1="68" y1="75" x2="92" y2="75" stroke="#C86D58" stroke-width="1" />
+              <text x="80" y="86" text-anchor="middle" font-family="Inter, sans-serif" font-size="5.5" fill="#786B63">${product.artStyle === 'spf-tube' ? 'SPF 50+ ZINC' : 'BARRIER CARE'}</text>
+            </svg>`;
+      }
+    }
+
+    // =========================================================================
+    // 4. FORMATTERS & TOAST NOTIFICATIONS
+    // =========================================================================
+    function formatAUD(amount) {
+      return `$${amount.toFixed(2)} AUD`;
+    }
+
+    function showToast(message, type = "default") {
+      const container = document.getElementById("toastContainer");
+      const toast = document.createElement("div");
+      const bgClass = type === "success" ? "bg-emerald-800 text-white" : "bg-espresso text-cream";
+      toast.className = `${bgClass} px-5 py-3 rounded-full shadow-xl text-xs sm:text-sm font-medium flex items-center gap-2 transition-all duration-300 transform translate-y-2 opacity-0`;
+      toast.innerHTML = `<span>${message}</span>`;
+      container.appendChild(toast);
+
+      requestAnimationFrame(() => {
+        toast.classList.remove("translate-y-2", "opacity-0");
+      });
+
+      setTimeout(() => {
+        toast.classList.add("opacity-0", "translate-y-2");
+        setTimeout(() => toast.remove(), 300);
+      }, 2800);
+    }
+
+    function copyPromoCode(code) {
+      const tempInput = document.createElement("input");
+      tempInput.value = code;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand("copy");
+        showToast(`Copied promo code ${code} to clipboard!`, "success");
+      } catch (e) {
+        showToast(`Promo code: ${code}`);
+      }
+      document.body.removeChild(tempInput);
+    }
+
+    // =========================================================================
+    // 5. CATEGORY TABS, SEARCH & PRODUCT GRID RENDERING
+    // =========================================================================
+    function renderCategoryTabs() {
+      const container = document.getElementById("categoryTabs");
+      container.innerHTML = CATEGORIES.map(cat => {
+        const isActive = state.selectedCategory === cat && !state.wishlistOnly;
+        return `
+          <button
+            onclick="selectCategory('${cat}')"
+            class="px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition ${
+              isActive
+                ? "bg-espresso text-cream shadow-xs"
+                : "bg-transparent text-taupe hover:bg-sand hover:text-espresso"
+            }"
+          >
+            ${cat}
+          </button>
+        `;
+      }).join("");
+    }
+
+    function selectCategory(category) {
+      state.selectedCategory = category;
+      state.wishlistOnly = false;
+      updateWishlistHeaderUI();
+      renderCategoryTabs();
+      renderProducts();
+    }
+
+    function handleSortChange(val) {
+      state.sortBy = val;
+      document.getElementById("sortSelect").value = val;
+      document.getElementById("mobileSortSelect").value = val;
+      renderProducts();
+    }
+
+    function clearSearch() {
+      state.searchQuery = "";
+      document.getElementById("desktopSearchInput").value = "";
+      document.getElementById("mobileSearchInput").value = "";
+      document.getElementById("clearDesktopSearch").classList.add("hidden");
+      document.getElementById("clearMobileSearch").classList.add("hidden");
+      renderProducts();
+    }
+
+    function resetFilters() {
+      state.selectedCategory = "All";
+      state.searchQuery = "";
+      state.wishlistOnly = false;
+      state.sortBy = "featured";
+      document.getElementById("desktopSearchInput").value = "";
+      document.getElementById("mobileSearchInput").value = "";
+      document.getElementById("clearDesktopSearch").classList.add("hidden");
+      document.getElementById("clearMobileSearch").classList.add("hidden");
+      document.getElementById("sortSelect").value = "featured";
+      document.getElementById("mobileSortSelect").value = "featured";
+      updateWishlistHeaderUI();
+      renderCategoryTabs();
+      renderProducts();
+    }
+
+    function toggleWishlist(productId, event) {
+      if (event) event.stopPropagation();
+      const idx = state.wishlist.indexOf(productId);
+      const product = PRODUCTS.find(p => p.id === productId);
+      if (idx > -1) {
+        state.wishlist.splice(idx, 1);
+        showToast(`Removed ${product.name} from saved items`);
+      } else {
+        state.wishlist.push(productId);
+        showToast(`Saved ${product.name} to favorites`);
+      }
+      updateWishlistHeaderUI();
+      renderProducts();
+    }
+
+    function toggleWishlistFilter() {
+      state.wishlistOnly = !state.wishlistOnly;
+      updateWishlistHeaderUI();
+      renderCategoryTabs();
+      renderProducts();
+      if (state.wishlistOnly) {
+        document.getElementById("catalogSection").scrollIntoView({ behavior: "smooth" });
+      }
+    }
+
+    function updateWishlistHeaderUI() {
+      const badge = document.getElementById("wishlistCountBadge");
+      const icon = document.getElementById("headerHeartIcon");
+      const btn = document.getElementById("wishlistToggleBtn");
+
+      if (state.wishlist.length > 0) {
+        badge.textContent = state.wishlist.length;
+        badge.classList.remove("hidden");
+      } else {
+        badge.classList.add("hidden");
+      }
+
+      if (state.wishlistOnly) {
+        btn.classList.add("bg-blush/70");
+        icon.setAttribute("fill", "#C86D58");
+        icon.setAttribute("stroke", "#C86D58");
+      } else {
+        btn.classList.remove("bg-blush/70");
+        icon.setAttribute("fill", "none");
+        icon.setAttribute("stroke", "currentColor");
+      }
+    }
+
+    function getFilteredProducts() {
+      let list = [...PRODUCTS];
+
+      if (state.wishlistOnly) {
+        list = list.filter(p => state.wishlist.includes(p.id));
+      } else if (state.selectedCategory === "Bestsellers") {
+        list = list.filter(p => p.bestseller);
+      } else if (state.selectedCategory !== "All") {
+        list = list.filter(p => p.category === state.selectedCategory);
+      }
+
+      if (state.searchQuery.trim() !== "") {
+        const q = state.searchQuery.toLowerCase().trim();
+        list = list.filter(p =>
+          p.name.toLowerCase().includes(q) ||
+          p.brand.toLowerCase().includes(q) ||
+          p.category.toLowerCase().includes(q) ||
+          p.description.toLowerCase().includes(q) ||
+          p.ingredients.some(ing => ing.toLowerCase().includes(q))
+        );
+      }
+
+      switch (state.sortBy) {
+        case "rating":
+          list.sort((a, b) => b.rating - a.rating || b.reviews - a.reviews);
+          break;
+        case "price-asc":
+          list.sort((a, b) => a.price - b.price);
+          break;
+        case "price-desc":
+          list.sort((a, b) => b.price - a.price);
+          break;
+        default:
+          // Featured: bestsellers first
+          list.sort((a, b) => (b.bestseller === a.bestseller ? 0 : b.bestseller ? 1 : -1));
+      }
+
+      return list;
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById("productGrid");
+      const emptyState = document.getElementById("emptyState");
+      const countLabel = document.getElementById("productCountLabel");
+      const titleEl = document.getElementById("catalogTitle");
+      const eyebrowEl = document.getElementById("catalogEyebrow");
+      const activeBar = document.getElementById("activeFilterBar");
+      const activeChips = document.getElementById("activeFilterChips");
+
+      const filtered = getFilteredProducts();
+
+      // Update Headings
+      if (state.wishlistOnly) {
+        eyebrowEl.textContent = "Personal Edit";
+        titleEl.textContent = "Your Saved Favorites";
+      } else if (state.selectedCategory === "All") {
+        eyebrowEl.textContent = "Curated Edit";
+        titleEl.textContent = "All Trending Beauty";
+      } else {
+        eyebrowEl.textContent = "Category Spotlight";
+        titleEl.textContent = state.selectedCategory;
+      }
+
+      countLabel.textContent = `Showing ${filtered.length} ${filtered.length === 1 ? "product" : "products"}`;
+
+      // Active Filter Chips
+      const chips = [];
+      if (state.searchQuery.trim() !== "") {
+        chips.push(`<span class="bg-sand text-espresso text-xs px-3 py-1 rounded-full flex items-center gap-1.5">Search: "${state.searchQuery}" <button onclick="clearSearch()" class="font-bold hover:text-terracotta">&times;</button></span>`);
+      }
+      if (state.wishlistOnly) {
+        chips.push(`<span class="bg-blush/70 text-espresso text-xs px-3 py-1 rounded-full flex items-center gap-1.5">Saved Items Only <button onclick="toggleWishlistFilter()" class="font-bold hover:text-terracotta">&times;</button></span>`);
+      }
+
+      if (chips.length > 0) {
+        activeChips.innerHTML = chips.join("");
+        activeBar.classList.remove("hidden");
+        activeBar.classList.add("flex");
+      } else {
+        activeBar.classList.add("hidden");
+        activeBar.classList.remove("flex");
+      }
+
+      // Render Grid or Empty State
+      if (filtered.length === 0) {
+        grid.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        return;
+      }
+
+      emptyState.classList.add("hidden");
+
+      grid.innerHTML = filtered.map(product => {
+        const isSaved = state.wishlist.includes(product.id);
+        const shadeDots = product.variantType === "Shade"
+          ? `<div class="flex items-center gap-1.5 mt-2">
+              ${product.variants.map(v => `<span class="w-3.5 h-3.5 rounded-full border border-espresso/20" style="background-color: ${v.swatch}" title="${v.name}"></span>`).join("")}
+              <span class="text-[11px] text-taupe ml-1">${product.variants.length} shades</span>
+             </div>`
+          : `<p class="text-[11px] text-taupe mt-2">${product.variants[0].name} &bull; ${product.ingredients[0]}</p>`;
+
+        return `
+          <article onclick="openQuickView(${product.id})" class="group bg-white rounded-3xl border border-espresso/10 overflow-hidden flex flex-col justify-between hover:shadow-xl hover:border-espresso/20 transition-all duration-300 cursor-pointer">
+            <!-- Top Visual Box -->
+            <div class="relative bg-sand/60 p-6 flex items-center justify-center h-60 overflow-hidden">
+              <!-- Badge -->
+              <span class="absolute top-3.5 left-3.5 bg-white/95 backdrop-blur-xs text-espresso text-[11px] font-semibold px-3 py-1 rounded-full shadow-2xs">
+                ${product.badge}
+              </span>
+
+              <!-- Wishlist Button -->
+              <button
+                onclick="toggleWishlist(${product.id}, event)"
+                aria-label="Save ${product.name}"
+                class="absolute top-3.5 right-3.5 w-9 h-9 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-2xs transition"
+              >
+                <svg class="w-4 h-4 ${isSaved ? 'text-terracotta fill-terracotta' : 'text-espresso'}" fill="${isSaved ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </button>
+
+              <!-- SVG Bottle Art -->
+              ${renderProductSVG(product, false)}
+
+              <!-- Hover Quick View Pill -->
+              <span class="absolute bottom-3 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 bg-espresso/90 text-cream text-xs font-medium px-4 py-1.5 rounded-full">
+                Quick View &amp; Ingredients
+              </span>
+            </div>
+
+            <!-- Card Details -->
+            <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <span class="text-[11px] font-bold uppercase tracking-wider text-terracotta">${product.brand}</span>
+                  <div class="flex items-center gap-1 text-xs font-medium text-espresso">
+                    <span class="text-amber-500">&#9733;</span>
+                    <span>${product.rating.toFixed(1)}</span>
+                    <span class="text-taupe">(${product.reviews.toLocaleString()})</span>
+                  </div>
+                </div>
+                <h3 class="font-serif text-xl font-semibold text-espresso leading-snug group-hover:text-terracotta transition">
+                  ${product.name}
+                </h3>
+                ${shadeDots}
+              </div>
+
+              <!-- Price & Quick Add -->
+              <div class="pt-3 border-t border-espresso/10 flex items-center justify-between gap-2">
+                <div>
+                  <span class="text-base font-bold text-espresso">${formatAUD(product.price)}</span>
+                </div>
+                <button
+                  onclick="quickAddToCart(${product.id}, event)"
+                  class="bg-sand hover:bg-espresso text-espresso hover:text-cream text-xs font-semibold px-4 py-2.5 rounded-full transition"
+                >
+                  + Add to Bag
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    // =========================================================================
+    // 6. QUICK-VIEW MODAL LOGIC
+    // =========================================================================
+    function openQuickView(productId) {
+      const product = PRODUCTS.find(p => p.id === productId);
+      if (!product) return;
+
+      state.modalProduct = product;
+      state.modalVariantIndex = 0;
+      state.modalQty = 1;
+
+      document.getElementById("modalBrand").textContent = product.brand;
+      document.getElementById("modalBadge").textContent = product.badge;
+      document.getElementById("modalProductTitle").textContent = product.name;
+      document.getElementById("modalRating").textContent = product.rating.toFixed(1);
+      document.getElementById("modalReviews").textContent = `(${product.reviews.toLocaleString()} reviews)`;
+      document.getElementById("modalDescription").textContent = product.description;
+      document.getElementById("modalHowToUse").textContent = `How to use: ${product.howToUse}`;
+      document.getElementById("modalVisualContainer").innerHTML = renderProductSVG(product, true);
+
+      // Ingredients pills
+      document.getElementById("modalIngredients").innerHTML = product.ingredients.map(ing => `
+        <span class="bg-white border border-espresso/10 text-espresso text-xs px-3 py-1 rounded-full">${ing}</span>
+      `).join("");
+
+      updateModalVariantUI();
+      updateModalPriceAndQtyUI();
+
+      const modal = document.getElementById("quickViewModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeQuickView() {
+      const modal = document.getElementById("quickViewModal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+      document.body.style.overflow = "";
+    }
+
+    function selectModalVariant(idx) {
+      state.modalVariantIndex = idx;
+      updateModalVariantUI();
+      updateModalPriceAndQtyUI();
+    }
+
+    function updateModalVariantUI() {
+      const product = state.modalProduct;
+      const selectedVariant = product.variants[state.modalVariantIndex];
+
+      document.getElementById("modalVariantLabel").textContent = `Select ${product.variantType}`;
+      document.getElementById("modalSelectedVariantName").textContent = selectedVariant.name;
+
+      const optionsContainer = document.getElementById("modalVariantOptions");
+      if (product.variantType === "Shade") {
+        optionsContainer.innerHTML = product.variants.map((v, idx) => {
+          const active = idx === state.modalVariantIndex;
+          return `
+            <button
+              onclick="selectModalVariant(${idx})"
+              class="flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium transition ${
+                active ? "border-espresso bg-espresso text-cream" : "border-espresso/15 bg-white text-espresso hover:border-espresso/40"
+              }"
+            >
+              <span class="w-4 h-4 rounded-full border border-white/60 shrink-0" style="background-color: ${v.swatch}"></span>
+              <span>${v.name.split(" (")[0]}</span>
+            </button>
+          `;
+        }).join("");
+      } else {
+        optionsContainer.innerHTML = product.variants.map((v, idx) => {
+          const active = idx === state.modalVariantIndex;
+          return `
+            <button
+              onclick="selectModalVariant(${idx})"
+              class="px-3.5 py-1.5 rounded-full border text-xs font-medium transition ${
+                active ? "border-espresso bg-espresso text-cream" : "border-espresso/15 bg-white text-espresso hover:border-espresso/40"
+              }"
+            >
+              ${v.name}
+            </button>
+          `;
+        }).join("");
+      }
+    }
+
+    function adjustModalQty(delta) {
+      state.modalQty = Math.max(1, Math.min(10, state.modalQty + delta));
+      updateModalPriceAndQtyUI();
+    }
+
+    function updateModalPriceAndQtyUI() {
+      const product = state.modalProduct;
+      const variant = product.variants[state.modalVariantIndex];
+      const unitPrice = product.price + (variant.priceDelta || 0);
+      const lineTotal = unitPrice * state.modalQty;
+
+      document.getElementById("modalPrice").textContent = formatAUD(unitPrice);
+      document.getElementById("modalQtyDisplay").textContent = state.modalQty;
+      document.getElementById("modalAddToCartBtn").textContent = `Add to Bag — ${formatAUD(lineTotal)}`;
+    }
+
+    function addModalProductToCart() {
+      if (!state.modalProduct) return;
+      addToCart(state.modalProduct.id, state.modalVariantIndex, state.modalQty);
+      closeQuickView();
+      openCart();
+    }
+
+    // =========================================================================
+    // 7. SHOPPING CART DRAWER & SIMULATED CHECKOUT FLOW
+    // =========================================================================
+    function quickAddToCart(productId, event) {
+      if (event) event.stopPropagation();
+      addToCart(productId, 0, 1);
+      const product = PRODUCTS.find(p => p.id === productId);
+      showToast(`Added ${product.name} to your bag`, "success");
+    }
+
+    function addRoutineBundle() {
+      // Adds Snail Mucin (1), Truffle Mist (2), Barrier Cream (5), Mineral SPF (6)
+      [1, 2, 5, 6].forEach(id => addToCart(id, 0, 1));
+      if (!state.appliedPromo) {
+        state.appliedPromo = "GLOW15";
+      }
+      openCart();
+      showToast("4-Step Glass Skin Routine added with GLOW15!", "success");
+    }
+
+    function addToCart(productId, variantIndex = 0, qty = 1) {
+      const existing = state.cart.find(
+        item => item.productId === productId && item.variantIndex === variantIndex
+      );
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        state.cart.push({ productId, variantIndex, qty });
+      }
+      state.checkoutStep = "cart";
+      updateCartUI();
+    }
+
+    function updateCartItemQty(index, delta) {
+      const item = state.cart[index];
+      if (!item) return;
+      item.qty += delta;
+      if (item.qty <= 0) {
+        state.cart.splice(index, 1);
+      }
+      updateCartUI();
+    }
+
+    function removeCartItem(index) {
+      state.cart.splice(index, 1);
+      updateCartUI();
+    }
+
+    function openCart() {
+      state.checkoutStep = "cart";
+      updateCartUI();
+      const drawer = document.getElementById("cartDrawer");
+      drawer.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeCart() {
+      const drawer = document.getElementById("cartDrawer");
+      drawer.classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+
+    function applyPromoCode(event) {
+      event.preventDefault();
+      const input = document.getElementById("promoCodeInput");
+      const code = input.value.trim().toUpperCase();
+      if (!code) return;
+
+      if (PROMO_CODES[code]) {
+        state.appliedPromo = code;
+        input.value = "";
+        showToast(`Promo code ${code} applied!`, "success");
+        updateCartUI();
+      } else {
+        showToast("Invalid code. Try GLOW15 or DEW10.");
+      }
+    }
+
+    function removePromoCode() {
+      state.appliedPromo = null;
+      updateCartUI();
+    }
+
+    function calculateCartTotals() {
+      const subtotal = state.cart.reduce((sum, item) => {
+        const product = PRODUCTS.find(p => p.id === item.productId);
+        const variant = product.variants[item.variantIndex] || product.variants[0];
+        const unitPrice = product.price + (variant.priceDelta || 0);
+        return sum + unitPrice * item.qty;
+      }, 0);
+
+      let discountAmount = 0;
+      if (state.appliedPromo && PROMO_CODES[state.appliedPromo]) {
+        discountAmount = subtotal * PROMO_CODES[state.appliedPromo].discount;
+      }
+
+      const afterDiscount = Math.max(0, subtotal - discountAmount);
+      const freeShippingThreshold = 75.00;
+      const shipping = afterDiscount === 0 || afterDiscount >= freeShippingThreshold ? 0 : 9.95;
+      const total = afterDiscount + shipping;
+
+      return {
+        subtotal,
+        discountAmount,
+        afterDiscount,
+        shipping,
+        total,
+        freeShippingThreshold
+      };
+    }
+
+    function updateCartUI() {
+      const totalItems = state.cart.reduce((sum, item) => sum + item.qty, 0);
+      document.getElementById("cartCountBadge").textContent = totalItems;
+      document.getElementById("drawerItemCount").textContent = `${totalItems} ${totalItems === 1 ? "item" : "items"}`;
+
+      const totals = calculateCartTotals();
+
+      // Free Shipping Progress Bar
+      const progressPct = Math.min(100, (totals.afterDiscount / totals.freeShippingThreshold) * 100);
+      document.getElementById("shippingProgressBar").style.width = `${progressPct}%`;
+      const shippingText = document.getElementById("shippingProgressText");
+      if (totals.afterDiscount >= totals.freeShippingThreshold) {
+        shippingText.innerHTML = `<span class="text-emerald-700 font-semibold">&#10003; You've unlocked FREE Express AU Shipping!</span>`;
+      } else {
+        const remaining = totals.freeShippingThreshold - totals.afterDiscount;
+        shippingText.innerHTML = `Add <span class="font-bold text-terracotta">${formatAUD(remaining)}</span> more for FREE Express AU Shipping`;
+      }
+
+      const bodyContainer = document.getElementById("cartBodyContainer");
+      const footerContainer = document.getElementById("cartFooterContainer");
+
+      // Handle Simulated Checkout Views
+      if (state.checkoutStep === "form") {
+        footerContainer.classList.add("hidden");
+        renderCheckoutForm(bodyContainer, totals);
+        return;
+      }
+
+      if (state.checkoutStep === "success") {
+        footerContainer.classList.add("hidden");
+        renderOrderConfirmation(bodyContainer);
+        return;
+      }
+
+      // Standard Cart Items View
+      if (state.cart.length === 0) {
+        footerContainer.classList.add("hidden");
+        bodyContainer.innerHTML = `
+          <div class="h-full flex flex-col items-center justify-center text-center py-12 space-y-4">
+            <div class="w-16 h-16 rounded-full bg-sand flex items-center justify-center text-taupe">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-serif text-2xl font-semibold text-espresso">Your bag is empty</h3>
+              <p class="text-xs text-taupe mt-1 max-w-xs mx-auto">Explore our dermatologist-approved barrier care and viral dewy complexion picks.</p>
+            </div>
+            <button onclick="closeCart()" class="bg-espresso text-cream hover:bg-terracotta px-6 py-3 rounded-full text-xs font-semibold transition">
+              Discover Bestsellers
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      footerContainer.classList.remove("hidden");
+
+      bodyContainer.innerHTML = state.cart.map((item, idx) => {
+        const product = PRODUCTS.find(p => p.id === item.productId);
+        const variant = product.variants[item.variantIndex] || product.variants[0];
+        const unitPrice = product.price + (variant.priceDelta || 0);
+
+        return `
+          <div class="flex gap-3.5 bg-white p-3.5 rounded-2xl border border-espresso/10">
+            <div class="w-20 h-20 rounded-xl bg-sand/60 flex items-center justify-center shrink-0 overflow-hidden">
+              <div class="scale-50">${renderProductSVG(product, false)}</div>
+            </div>
+            <div class="flex-1 min-w-0 flex flex-col justify-between">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <p class="text-[10px] font-bold uppercase tracking-wider text-terracotta">${product.brand}</p>
+                  <h4 class="font-serif text-base font-semibold text-espresso leading-tight truncate">${product.name}</h4>
+                  <p class="text-xs text-taupe mt-0.5">${variant.name}</p>
+                </div>
+                <button onclick="removeCartItem(${idx})" aria-label="Remove item" class="text-taupe hover:text-espresso text-sm px-1">&times;</button>
+              </div>
+
+              <div class="flex items-center justify-between pt-2">
+                <div class="flex items-center border border-espresso/15 rounded-full bg-cream px-1.5 py-0.5">
+                  <button onclick="updateCartItemQty(${idx}, -1)" class="w-6 h-6 rounded-full hover:bg-sand text-xs font-bold">&minus;</button>
+                  <span class="w-6 text-center text-xs font-semibold">${item.qty}</span>
+                  <button onclick="updateCartItemQty(${idx}, 1)" class="w-6 h-6 rounded-full hover:bg-sand text-xs font-bold">+</button>
+                </div>
+                <span class="text-sm font-bold text-espresso">${formatAUD(unitPrice * item.qty)}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      // Update Totals Display
+      document.getElementById("cartSubtotal").textContent = formatAUD(totals.subtotal);
+      document.getElementById("cartShipping").textContent = totals.shipping === 0 ? "FREE" : formatAUD(totals.shipping);
+      document.getElementById("cartTotal").textContent = formatAUD(totals.total);
+
+      const discountRow = document.getElementById("discountRow");
+      const promoFeedback = document.getElementById("promoFeedback");
+
+      if (state.appliedPromo && PROMO_CODES[state.appliedPromo]) {
+        discountRow.classList.remove("hidden");
+        document.getElementById("discountLabel").textContent = PROMO_CODES[state.appliedPromo].label;
+        document.getElementById("cartDiscount").textContent = `-${formatAUD(totals.discountAmount)}`;
+
+        promoFeedback.classList.remove("hidden");
+        document.getElementById("promoMessage").textContent = `Code ${state.appliedPromo} applied!`;
+      } else {
+        discountRow.classList.add("hidden");
+        promoFeedback.classList.add("hidden");
+      }
+    }
+
+    function startSimulatedCheckout() {
+      if (state.cart.length === 0) return;
+      state.checkoutStep = "form";
+      updateCartUI();
+    }
+
+    function backToCartItems() {
+      state.checkoutStep = "cart";
+      updateCartUI();
+    }
+
+    function renderCheckoutForm(container, totals) {
+      container.innerHTML = `
+        <div class="space-y-5">
+          <button onclick="backToCartItems()" class="text-xs font-semibold text-taupe hover:text-espresso flex items-center gap-1">
+            &larr; Back to Bag
+          </button>
+
+          <div>
+            <h3 class="font-serif text-2xl font-semibold text-espresso">Express Australian Checkout</h3>
+            <p class="text-xs text-taupe mt-0.5">Simulated checkout experience &bull; Total due: <strong class="text-espresso">${formatAUD(totals.total)}</strong></p>
+          </div>
+
+          <form onsubmit="submitSimulatedOrder(event)" class="space-y-3.5">
+            <div>
+              <label class="block text-xs font-semibold text-espresso mb-1">Full Name</label>
+              <input type="text" required value="Chloe Vance" class="w-full bg-white border border-espresso/15 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-terracotta" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-espresso mb-1">Email for Tracking</label>
+              <input type="email" required value="chloe.vance@example.com.au" class="w-full bg-white border border-espresso/15 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-terracotta" />
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-espresso mb-1">Suburb / City</label>
+                <input type="text" required value="Melbourne" class="w-full bg-white border border-espresso/15 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-terracotta" />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-espresso mb-1">State &amp; Postcode</label>
+                <input type="text" required value="VIC 3000" class="w-full bg-white border border-espresso/15 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-terracotta" />
+              </div>
+            </div>
+
+            <div class="bg-sand/80 p-3.5 rounded-2xl border border-espresso/10 space-y-2">
+              <p class="text-xs font-semibold text-espresso">Payment Method (Demo)</p>
+              <div class="flex items-center justify-between text-xs text-taupe bg-white px-3 py-2.5 rounded-xl border border-espresso/10">
+                <span>Apple Pay / Visa &bull;&bull;&bull;&bull; 4829</span>
+                <span class="text-emerald-700 font-semibold">Verified</span>
+              </div>
+            </div>
+
+            <button type="submit" class="w-full bg-espresso hover:bg-terracotta text-cream font-semibold py-3.5 rounded-full text-sm transition shadow-md mt-2">
+              Complete Order &mdash; ${formatAUD(totals.total)}
+            </button>
+          </form>
+        </div>
+      `;
+    }
+
+    function submitSimulatedOrder(event) {
+      event.preventDefault();
+      state.cart = [];
+      state.appliedPromo = null;
+      state.checkoutStep = "success";
+      updateCartUI();
+    }
+
+    function renderOrderConfirmation(container) {
+      const orderNum = "AD-" + Math.floor(100000 + Math.random() * 900000);
+      container.innerHTML = `
+        <div class="h-full flex flex-col items-center justify-center text-center py-10 space-y-4">
+          <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-2xl font-bold">
+            &#10003;
+          </div>
+          <div class="space-y-1">
+            <span class="text-xs font-bold uppercase tracking-widest text-terracotta">Order Confirmed</span>
+            <h3 class="font-serif text-3xl font-semibold text-espresso">Thank you for glowing with us!</h3>
+            <p class="text-xs text-taupe">Order Reference: <strong class="text-espresso">${orderNum}</strong></p>
+          </div>
+          <p class="text-xs text-taupe max-w-xs leading-relaxed">
+            Your barrier skincare and beauty picks are being packed with complimentary deluxe samples at our Melbourne fulfillment studio.
+          </p>
+          <button onclick="closeCart()" class="bg-espresso text-cream hover:bg-terracotta px-6 py-3 rounded-full text-xs font-semibold transition mt-2">
+            Continue Exploring
+          </button>
+        </div>
+      `;
+    }
+
+    function handleNewsletter(event) {
+      event.preventDefault();
+      event.target.reset();
+      showToast("Welcome to AURA & DEW! Use GLOW15 at checkout.", "success");
+    }
+
+    // =========================================================================
+    // 8. EVENT LISTENERS & INITIALIZATION
+    // =========================================================================
+    function syncSearchInputs(value) {
+      state.searchQuery = value;
+      document.getElementById("desktopSearchInput").value = value;
+      document.getElementById("mobileSearchInput").value = value;
+
+      const hasVal = value.trim().length > 0;
+      document.getElementById("clearDesktopSearch").classList.toggle("hidden", !hasVal);
+      document.getElementById("clearMobileSearch").classList.toggle("hidden", !hasVal);
+
+      renderProducts();
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("desktopSearchInput").addEventListener("input", e => syncSearchInputs(e.target.value));
+      document.getElementById("mobileSearchInput").addEventListener("input", e => syncSearchInputs(e.target.value));
+
+      // Escape key closes modals/drawers
+      document.addEventListener("keydown", e => {
+        if (e.key === "Escape") {
+          closeQuickView();
+          closeCart();
+        }
+      });
+
+      renderCategoryTabs();
+      updateWishlistHeaderUI();
+      renderProducts();
+      updateCartUI();
+    });
+  </script>
+</body>
+</html>
+```
